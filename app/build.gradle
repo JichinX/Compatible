@@ -6,8 +6,8 @@ android {
         applicationId "com.codvision.compatible"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode getVCode()
+        versionName '1.2.1.' + versionCode
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -25,4 +25,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(path: ':compatiblelib')
+}
+//versionCode取时间戳对应的天数(年月日时分 各2位)
+def getVCode() {
+    def now_date = new Date().format('yyMMddhhmm')
+    return Integer.parseUnsignedInt(now_date)
 }

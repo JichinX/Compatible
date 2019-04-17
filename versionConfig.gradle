@@ -1,0 +1,112 @@
+/*
+ * Copyright (c) 2019.
+ */
+
+ext {
+    GRADLE_PLUGIN_VERSION = '1.8.4'
+    MAVEN_PLUGIN_VERSION = '2.1'
+    LOCAL_REPO_URL = 'file:////Users/xujichang/develop/environment/maven/repository/local'
+    GROUP_ID = 'me.xujichang.xmodules'
+    Junit = '4.12'
+    compile_sdk = 28
+    target_sdk = 28
+    min_sdk = 16
+
+    appVersionCode = 1000
+    appVersionName = "1.0.0.0"
+    material_dialogs_version = "2.0.0-rc7"
+}
+//仓库设置
+def repo = [:]
+repo.localMaven = 'file:////Users/xujichang/develop/environment/maven/repository/local'
+ext.repo = repo
+
+//项目的基本配置
+def projectConf = [:]
+projectConf.minSdk = 16
+projectConf.targetSdk = 28
+projectConf.compileSdk = 28
+ext.projectConf = projectConf
+//gradle 插件
+def plugin = [:]
+plugin.gradle_bintray_plugin = '1.8.4'
+plugin.android_maven_gradle_plugin = '2.1'
+plugin.android_build_tools = 'gradle:3.4.0-rc02'
+ext.plugin = plugin
+def support = [:]
+ext.support = support
+//android 开发库
+def androidx = [:]
+androidx.test_runner = '1.1.1'
+androidx.appcompat = '1.1.0-alpha03'
+androidx.constraintlayout = '1.1.3'
+androidx.espresso_core = '3.1.1'
+androidx.recyclerviewVersion = '1.0.0'
+androidx.cardviewVersion = "1.0.0"
+androidx.lifecycle = "2.0.0"
+androidx.navigation_fragment = "1.0.0"
+androidx.multidex = "2.0.1"
+androidx.material = "1.0.0"
+androidx.viewpager2 = "1.0.0-alpha02"
+androidx.transition = "1.0.1"
+androidx.test_runner = '1.1.1'
+androidx.room = '2.0.0'
+androidx.worker = "1.0.0-beta02"
+androidx.nav_version = "1.0.0-alpha11"
+androidx.legacyV4 = "1.0.0"
+
+ext.androidx = androidx
+
+
+def modules = [:]
+modules.app_version_code = 100
+modules.app_version_name = '1.0.0'
+modules.base_version_code = 100
+modules.base_version_name = '1.0.0'
+modules.baseres_version_code = 100
+modules.baseres_version_name = '1.0.0'
+ext.modules = modules
+
+//自己开发的  base库
+def base = [:]
+base.demo = '1.0.0.0@aar'
+base.core = '1.0.0.1@aar'
+base.res = '1.0.0.0@aar'
+base.utils = "1.0.0.3@aar"
+base.net = "1.0.0.6@aar"
+base.worker = "1.0.0.0@aar"
+base.ui = "1.0.0.17@aar"
+ext.base = base
+
+//常用三方库
+def lib = [:]
+lib.glide = "4.9.0"
+lib.guava_android = "27.0.1-android"
+lib.retrofit2 = "2.5.0"
+lib.rxjava2 = "2.2.5"
+lib.rxandroid = "2.1.0"
+lib.okhttp = "3.12.1"
+lib.gson = "2.8.5"
+lib.zxingCore = "3.3.3"
+lib.zxingAndroidCore = "3.3.0"
+lib.jcore = "1.2.6"
+lib.jpush = "3.1.8"
+lib.materialDialogsKt = "2.0.3"
+lib.materialDialogs = "0.9.6.0"
+lib.android_job = "1.3.0-alpha09"
+ext.lib = lib
+
+//高德地图
+def amap = [:]
+amap.map3d = "6.7.0"
+amap.map2d = "5.2.0"
+amap.navi = "6.6.0_3dmap6.7.0"
+amap.search = "6.5.0"
+amap.location = "4.5.0"
+ext.amap = amap
+
+def jitpack = [:]
+jitpack.xutils = '1.0.0'
+jitpack.xbase = '1.0.3'
+jitpack.modules = '1.0.4'
+ext.jitpack = jitpack
