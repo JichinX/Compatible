@@ -1,7 +1,6 @@
-package com.codvision.compatible.pstore.util;
+package com.codvision.compatible.util;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -9,7 +8,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 
 /**
- * Des:Compatible - com.codvision.compatible.pstore.util
+ * Des:Compatible - com.codvision.compatible.util
  *
  * @author xujichang
  * @date 2019-04-17 - 10:11
@@ -51,6 +50,7 @@ public class NetUtil {
             }
         } catch (SocketException e) {
             e.printStackTrace();
+            return false;
         }
         return false;
     }

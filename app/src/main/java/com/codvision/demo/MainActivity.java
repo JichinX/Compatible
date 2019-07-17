@@ -3,7 +3,7 @@ package com.codvision.demo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.codvision.compatible.pstore.util.NetUtil;
+import com.codvision.compatible.util.NetUtil;
 
 public class MainActivity extends AppCompatActivity {
 

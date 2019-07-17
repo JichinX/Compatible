@@ -1,5 +1,8 @@
 package com.codvision.compatible;
 
+import com.codvision.compatible.base.IPstore;
+import com.codvision.compatible.proxy.PStoreProxy;
+
 /**
  * Des:FireEye - com.codvision.compatible
  *
@@ -9,5 +12,11 @@ package com.codvision.compatible;
  * modify:
  */
 public class CompatInit {
-    
+
+    public static <T> PStoreProxy<T> init(IPstore<T> vPstore) {
+        PStoreProxy<T> loProxy = new PStoreProxy<>(vPstore);
+        //处理错误
+        loProxy.iniExceptionHandler();
+        return loProxy;
+    }
 }

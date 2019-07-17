@@ -1,5 +1,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.codvision.compatible">
-
+    <!--                            省厅权限                                     -->
+    <!--基础信息的权限，授权认证等-->
+    <uses-permission android:name="cybertech.permission.READ_PSTORE" />
+    <!--读取用户信息的权限-->
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_USERINFO" />
+    <!--读取同步时间的权限-->
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_SERVER_SYNC_TIME" />
+    <!--读取链路信息的权限-->
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_LINKINFO" />
+    <!--读取位置信息的权限-->
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_LOCATIONINFO" />
+    <!--提交操作日志的权限-->
+    <uses-permission android:name="cybertech.permission.WRITE_PSTORE_OPERATIONLOG" />
+    <!--提交状态数据的权限-->
+    <uses-permission android:name="cybertech.permission.WRITE_PSTORE_APP_STATE_MONITOR" />
+    <!--                            end                                     -->
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
