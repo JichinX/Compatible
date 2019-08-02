@@ -11,6 +11,7 @@ import android.os.Handler;
 
 import com.codvision.compatible.base.CompatibleConst;
 import com.codvision.compatible.base.IPstore;
+import com.codvision.compatible.util.GPSUtil;
 import com.codvision.compatible.util.ManifestUtil;
 import com.codvision.compatible.util.NetUtil;
 
@@ -192,12 +193,26 @@ public abstract class PstoreProxyImpl<T> implements IPstore<T> {
 //        });
     }
 
+//    private android.location.Location convertLocation(Location location) {
+//
+//        mLocation.reset();
+//        mLocation.setLatitude(Double.parseDouble(location.getLat()));
+//        mLocation.setLongitude(Double.parseDouble(location.getLng()));
+//        onLocationChanged(mLocation);
+//        return mLocation;
+//    }
+
+    /**
+     * @param location
+     * @return
+     */
     private android.location.Location convertLocation(Location location) {
-        mLocation.reset();
-        mLocation.setLatitude(Double.parseDouble(location.getLat()));
-        mLocation.setLongitude(Double.parseDouble(location.getLng()));
-        onLocationChanged(mLocation);
-        return mLocation;
+        android.location.Location loc = new android.location.Location(LocationManager.GPS_PROVIDER);
+        loc.reset();
+        double[] lat_lng = GPSUtil.gcj02_To_Gps84(Double.parseDouble(location.getLat()), Double.parseDouble(location.getLng()));
+        loc.setLatitude(lat_lng[0]);
+        loc.setLongitude(lat_lng[1]);
+        return loc;
     }
 
     @Override
