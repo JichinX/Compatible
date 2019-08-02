@@ -1,6 +1,5 @@
 package com.codvision.compatible.pstore;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,7 +9,6 @@ import android.database.ContentObserver;
 import android.location.LocationManager;
 import android.os.Handler;
 
-import com.codvision.compatible.CompatInit;
 import com.codvision.compatible.base.CompatibleConst;
 import com.codvision.compatible.base.IPstore;
 import com.codvision.compatible.util.ManifestUtil;
@@ -20,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-import cn.com.cybertech.models.gaode.AddressQueryResult;
 import cn.com.cybertech.models.gaode.CellLocationQueryResult;
 import cn.com.cybertech.models.gaode.Location;
 import cn.com.cybertech.pdk.AppException;
@@ -118,46 +115,81 @@ public abstract class PstoreProxyImpl<T> implements IPstore<T> {
                 "RETRIEVE CONDITION (" + queryCondition + ") at " + SimpleDateFormat.getDateTimeInstance().format(new Date()));
     }
 
+    /**
+     * 仅获取GPS坐标，不需要转成实际地址信息
+     *
+     * @param callback
+     */
     @Override
     public void obtainLocation(final LocationCallback callback) {
         GaodeService gaodeService = new GaodeService(mApplication);
-        gaodeService.locateByGpsOrBaseStations(new GaodeService.OnAddressQueryListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onSuccessful(AddressQueryResult result, String raw) {
-                if (result.getAddressResultList().size() > 0) {
-                    //GPS定位
-                    Location location = result.getAddressResultList().get(0).getLocation();
-                    callback.onGotLocation(convertLocation(location));
-                } else {
+        Map<String, String> locationMap = LocationInfo.getLocationInfo(mApplication);
+        double[] lon_lat = LocationInfo.get(locationMap);
+        if (lon_lat[0] == 0.0D && lon_lat[1] == 0.0D) {
+            gaodeService.locateByBaseStations(new GaodeService.OnCellLocationQueryListener() {
+                @Override
+                public void onSuccessful(CellLocationQueryResult vResult, String vS) {
+                    if (vResult.isOK()) {
+                        //基站定位
+                        String locationStr = vResult.getCellLocationResult().getLocation();
+                        Location location = new Location();
+                        location.setLat(locationStr.split(",")[1]);
+                        location.setLng(locationStr.split(",")[0]);
+                        callback.onGotLocation(convertLocation(location));
+                    } else {
+                        callback.onGotLocation(null);
+                    }
+                }
+
+                @Override
+                public void onFailed(String vS) {
                     callback.onGotLocation(null);
                 }
-            }
-
-            @Override
-            public void onFailed(String error) {
-                callback.onGotLocation(null);
-            }
-        }, new GaodeService.OnCellLocationQueryListener() {
-            @Override
-            public void onSuccessful(CellLocationQueryResult result, String raw) {
-                if (result.isOK()) {
-                    //基站定位
-                    String locationStr = result.getCellLocationResult().getLocation();
-                    Location location = new Location();
-                    location.setLat(locationStr.split(",")[0]);
-                    location.setLng(locationStr.split(",")[1]);
-                    callback.onGotLocation(convertLocation(location));
-                } else {
-                    callback.onGotLocation(null);
-                }
-            }
-
-            @Override
-            public void onFailed(String error) {
-                callback.onGotLocation(null);
-            }
-        });
+            });
+        } else {
+            mLocation.reset();
+            mLocation.setProvider(LocationManager.GPS_PROVIDER);
+            mLocation.setLatitude(lon_lat[1]);
+            mLocation.setLongitude(lon_lat[0]);
+            callback.onGotLocation(mLocation);
+        }
+//        gaodeService.locateByGpsOrBaseStations(new GaodeService.OnAddressQueryListener() {
+//            @SuppressLint("SetTextI18n")
+//            @Override
+//            public void onSuccessful(AddressQueryResult result, String raw) {
+//                if (result.getAddressResultList().size() > 0) {
+//                    //GPS定位
+//                    Location location = result.getAddressResultList().get(0).getLocation();
+//                    callback.onGotLocation(convertLocation(location));
+//                } else {
+//                    callback.onGotLocation(null);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailed(String error) {
+//                callback.onGotLocation(null);
+//            }
+//        }, new GaodeService.OnCellLocationQueryListener() {
+//            @Override
+//            public void onSuccessful(CellLocationQueryResult result, String raw) {
+//                if (result.isOK()) {
+//                    //基站定位
+//                    String locationStr = result.getCellLocationResult().getLocation();
+//                    Location location = new Location();
+//                    location.setLat(locationStr.split(",")[0]);
+//                    location.setLng(locationStr.split(",")[1]);
+//                    callback.onGotLocation(convertLocation(location));
+//                } else {
+//                    callback.onGotLocation(null);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailed(String error) {
+//                callback.onGotLocation(null);
+//            }
+//        });
     }
 
     private android.location.Location convertLocation(Location location) {
